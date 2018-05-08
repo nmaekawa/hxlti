@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 """Model unit tests."""
-import datetime as dt
-
+import arrow
+from datetime import datetime
+from datetime import timedelta
 import pytest
+import pytz
 
+from hxlti.consumer.models import Consumer
 from hxlti.user.models import Role, User
 
 from .factories import UserFactory
@@ -26,7 +29,7 @@ class TestUser:
         user = User(username='foo', email='foo@bar.com')
         user.save()
         assert bool(user.created_at)
-        assert isinstance(user.created_at, dt.datetime)
+        assert isinstance(user.created_at, datetime)
 
     def test_password_is_nullable(self):
         """Test null password."""
@@ -65,3 +68,41 @@ class TestUser:
         user.roles.append(role)
         user.save()
         assert role in user.roles
+
+
+@pytest.mark.usefixtures('db')
+class TestConsumer:
+    """Consumer tests."""
+
+    def test_get_by_id(self):
+        consumer = Consumer(
+            client_key='a_consumer', secret_key='a_not_so_secret_secret_key')
+        consumer.save()
+
+        retrieved = Consumer.get_by_id(consumer.id)
+        assert retrieved == consumer
+
+
+    def test_consumer_with_defaults(self):
+        now = arrow.utcnow()
+        consumer = Consumer(client_key='x_consumer')
+        consumer.save()
+
+        # db has naive dates?
+        #created_at = consumer.created_at.replace(tzinfo=pytz.utc)
+        #expire_on = consumer.expire_on.replace(tzinfo=pytz.utc)
+
+        assert (consumer.created_at - now) <= timedelta(seconds=1)  # close enough
+        assert (consumer.expire_on - now) >= timedelta(weeks=4)  # magic number
+        assert consumer.has_expired() is False
+        assert consumer.client_key == 'x_consumer'
+        assert consumer.secret_key is not None
+        assert consumer.is_admin is False
+
+
+    def test_expired_consumer(self):
+        date_in_past = arrow.utcnow() - timedelta(days=2)
+        consumer = Consumer(client_key='a_consumer', expire_on=date_in_past)
+        consumer.save()
+
+        assert consumer.has_expired()

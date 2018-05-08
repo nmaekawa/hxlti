@@ -4,6 +4,7 @@
 See: http://webtest.readthedocs.org/
 """
 from flask import url_for
+import pytest
 
 from hxlti.user.models import User
 
@@ -64,7 +65,7 @@ class TestLoggingIn:
         # sees error
         assert 'Unknown user' in res
 
-
+@pytest.mark.skip('not registering for now')
 class TestRegistering:
     """Register a user."""
 
