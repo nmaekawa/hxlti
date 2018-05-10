@@ -1,0 +1,14 @@
+
+{% extends "layout.html" %}
+{% block content %}
+<div class="container-narrow">
+    <h1>post dump</h1>
+
+    <dl>
+        {% for key, value in params.items() %}
+            <dt>{{ key|e }}</dt>
+            <dd>{{ value|e }}</dd>
+        {% endfor %}
+    </dl>
+</div>
+{% endblock %}

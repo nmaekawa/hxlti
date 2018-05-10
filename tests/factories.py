@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 """Factories to help in tests."""
+import arrow
+from datetime import timedelta
+
 from factory import PostGenerationMethodCall, Sequence
 from factory.alchemy import SQLAlchemyModelFactory
 
 from hxlti.database import db
+from hxlti.consumer.models import Consumer
 from hxlti.user.models import User
 
 
@@ -29,3 +33,16 @@ class UserFactory(BaseFactory):
         """Factory configuration."""
 
         model = User
+
+
+class ConsumerFactory(BaseFactory):
+    """Consumer factory."""
+
+    client_key = Sequence(lambda n: 'client_key_{0}'.format(n))
+    secret_key = Sequence(lambda n: 'client_secret_{0}'.format(n))
+    created_at = arrow.utcnow()
+    expire_on = arrow.utcnow() + timedelta(days=1)
+    is_admin = False
+
+    class Meta:
+        model = Consumer

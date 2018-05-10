@@ -1,0 +1,22 @@
+context_id : course-v1:HarvardX+HxAT101+2015_T4
+context_label : HarvardX
+context_title : Introduction to the HxAT
+custom_component_display_name : NAOMI_TST
+custom_naomi_param : this_is_a_custom_param
+custom_naomi_param2 : this_is_another_param
+launch_presentation_locale : en
+launch_presentation_return_url :
+lis_person_contact_email_primary : nmaekawa@g.harvard.edu
+lis_person_sourcedid : nmaekawa2017
+lis_result_sourcedid : course-v1%3AHarvardX%2BHxAT101%2B2015_T4:edge.edx.org-9fcae62972a240e488ca1de83dc4a6d9:d99019cf42efda58f412e711d97beebe
+lti_message_type : basic-lti-launch-request
+lti_version : LTI-1p0
+oauth_callback : about:blank
+oauth_consumer_key : 8e79836e-54ba-4973-a2a3-c4032b50e389
+oauth_nonce : 165243196618347452811525877609
+oauth_signature : yE3l05/eDEHQ6K8ulJml+NdphGQ=
+oauth_signature_method : HMAC-SHA1
+oauth_timestamp : 1525877609
+oauth_version : 1.0
+resource_link_id : edge.edx.org-9fcae62972a240e488ca1de83dc4a6d9
+roles : Administrator

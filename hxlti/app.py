@@ -2,7 +2,7 @@
 """The app module, containing the app factory function."""
 from flask import Flask, render_template
 
-from hxlti import commands, public, user
+from hxlti import commands, public, user, lti_launch
 from hxlti.extensions import bcrypt, cache, csrf_protect, db, debug_toolbar, login_manager, migrate, webpack
 from hxlti.settings import ProdConfig
 
@@ -39,6 +39,7 @@ def register_blueprints(app):
     """Register Flask blueprints."""
     app.register_blueprint(public.views.blueprint)
     app.register_blueprint(user.views.blueprint)
+    app.register_blueprint(lti_launch.views.blueprint)
     return None
 
 

@@ -15,11 +15,13 @@ class LTIRequestValidator(RequestValidator):
 
     enforce_ssl = False
 
-    dummy_secret = u'secret'
+    dummy_secret = u'secret-bhwahwahwa'
     dummy_client = (
         u'dummy_'
         '42237E2AB9614C4EAB0C089A96B40686B1C97DE114EC40659E64F1CE3C195AAC')
 
+    # TODO: hack until figure out why property is not iterable in oauthlib pkg
+    allowed_signature_methods = ['HMAC_SHA1']
 
     def check_client_key(self, key):
         # any non-empty string is OK as a client key

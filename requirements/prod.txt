@@ -30,6 +30,8 @@ flask-webpack==0.1.0
 # Auth
 Flask-Login==0.4.1
 Flask-Bcrypt==0.7.1
+oauthlib>=2.0.7
+lti>=0.9.2
 
 # Caching
 Flask-Caching>=1.0.0

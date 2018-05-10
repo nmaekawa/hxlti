@@ -7,8 +7,9 @@ import pytest
 import pytz
 
 from hxlti.consumer.models import Consumer
-from hxlti.user.models import Role, User
+from hxlti.user.models import User
 
+from .factories import ConsumerFactory
 from .factories import UserFactory
 
 
@@ -60,15 +61,6 @@ class TestUser:
         user = UserFactory(first_name='Foo', last_name='Bar')
         assert user.full_name == 'Foo Bar'
 
-    def test_roles(self):
-        """Add a role to a user."""
-        role = Role(name='admin')
-        role.save()
-        user = UserFactory()
-        user.roles.append(role)
-        user.save()
-        assert role in user.roles
-
 
 @pytest.mark.usefixtures('db')
 class TestConsumer:
@@ -106,3 +98,17 @@ class TestConsumer:
         consumer.save()
 
         assert consumer.has_expired()
+
+    def test_factory(self, db):
+        consumer = ConsumerFactory(client_key='fake_key',
+                                   secret_key='fake_secret')
+        db.session.commit()
+
+        assert bool(consumer.client_key)
+        assert consumer.client_key == 'fake_key'
+        assert bool(consumer.secret_key)
+        assert consumer.secret_key == 'fake_secret'
+        assert bool(consumer.created_at)
+        assert bool(consumer.expire_on)
+        assert consumer.is_admin is False
+
